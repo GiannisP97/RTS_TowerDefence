@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class UnityRTS : MonoBehaviour
 {
     private GameObject selectedGameobject;
+    public int goldCost;
     private NavMeshAgent agent;
 
     private void Awake(){

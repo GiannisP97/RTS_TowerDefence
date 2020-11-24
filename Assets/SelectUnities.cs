@@ -9,6 +9,7 @@ public class SelectUnities : MonoBehaviour
     private Vector3 startposition;
     private Vector3 endPosition;
     private Vector3 startMousePosition;
+    private player player;
     // Start is called before the first frame update
     private List<UnityRTS> selectedUnities;
     [SerializeField] private RectTransform selectionAreaTransform;
@@ -16,6 +17,7 @@ public class SelectUnities : MonoBehaviour
     {
         selectedUnities = new List<UnityRTS>();
         selectionAreaTransform.gameObject.SetActive(false);
+        player = GetComponent<player>();
     }
 
     // Update is called once per frame
@@ -25,12 +27,7 @@ public class SelectUnities : MonoBehaviour
         if(Input.GetMouseButtonDown(0)){
             selectionAreaTransform.gameObject.SetActive(true);
             startMousePosition  = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray,out hit)){
-                    startposition = hit.point;
-                    Debug.Log(startposition);
-            }
+
         }
         if(Input.GetMouseButton(0)){
             Vector3 s =Input.mousePosition;
@@ -42,29 +39,41 @@ public class SelectUnities : MonoBehaviour
             selectionAreaTransform.localScale = upperRight - lowerleft;
         }
         if(Input.GetMouseButtonUp(0)){
+            Vector3 s = Input.mousePosition;
             selectionAreaTransform.gameObject.SetActive(false);
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray,out hit)){
-                    endPosition = hit.point;
-                    Vector3 center  = (endPosition + startposition)/2;
-                    Debug.Log(endPosition);
-                    Collider[] hitColliders = Physics.OverlapSphere(center,(center-startposition).magnitude);
-                    
-                    foreach(UnityRTS u in selectedUnities){
-                        u.SetSelectedVisibility(false);
-                    }
-                    selectedUnities.Clear();
-                    foreach (var hitCollider in hitColliders)
-                    {
-                        UnityRTS Unit = hitCollider.GetComponent<UnityRTS>();
-                        if( Unit!=null){
-                            selectedUnities.Add(Unit);
-                            Unit.SetSelectedVisibility(true);
-                        }
-                    }
-                    Debug.Log(selectedUnities.Count);
+            Vector2 lowerleft = new Vector3(Mathf.Min(startMousePosition.x,s.x),Mathf.Min(startMousePosition.y,s.y));
+            Vector2 upperRight = new Vector3(Mathf.Max(startMousePosition.x,s.x),Mathf.Max(startMousePosition.y,s.y));
+            foreach(UnityRTS u in selectedUnities){
+                u.SetSelectedVisibility(false);
             }
+            selectedUnities.Clear();
+            foreach(UnityRTS unit in player.playersUnities){
+
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(unit.transform.position);
+
+                if(screenPos.x > lowerleft.x && screenPos.x<upperRight.x && screenPos.y>lowerleft.y && screenPos.y<upperRight.y){
+                    selectedUnities.Add(unit);
+                    unit.SetSelectedVisibility(true);
+                }
+            }
+
+            if(startMousePosition==s){
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(ray,out hit)){
+                    UnityRTS u = hit.transform.gameObject.GetComponent<UnityRTS>();
+                    if(u!=null){
+                        foreach(UnityRTS unit in selectedUnities){
+                            unit.SetSelectedVisibility(false);
+                        }
+                        selectedUnities.Clear();
+                        selectedUnities.Add(u);
+                        u.SetSelectedVisibility(true);
+                    }
+                }
+            }
+
+            Debug.Log(selectedUnities.Count);
             
         }
 
