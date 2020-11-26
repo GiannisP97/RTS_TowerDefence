@@ -25,9 +25,9 @@ public class shopManager : MonoBehaviour
     }
 
     public void BuyUnit(){
-        if(player.gold >= unitsAvailable[0].goldCost){
+        if(player.gold >= unitsAvailable[0].UnitStat.goldCost){
             UnityRTS u = Instantiate(unitsAvailable[0],Spawn.transform.position,new Quaternion());
-            player.gold-=unitsAvailable[0].goldCost;
+            player.gold-=unitsAvailable[0].UnitStat.goldCost;
             player.playersUnities.Add(u);
         }
     }

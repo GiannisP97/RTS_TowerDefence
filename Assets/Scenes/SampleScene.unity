@@ -2127,7 +2127,7 @@ MonoBehaviour:
   - {fileID: 559128355}
   - {fileID: 20087668}
   playerName: 
-  gold: 0
+  gold: 10000
 --- !u!114 &1578147329
 MonoBehaviour:
   m_ObjectHideFlags: 0
