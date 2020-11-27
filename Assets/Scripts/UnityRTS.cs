@@ -10,6 +10,7 @@ public class UnityRTS : MonoBehaviour
     private NavMeshAgent agent;
     private Transform currentTarget;
     private float attackTimer;
+    private RTS_Controller r = new RTS_Controller();
 
     private void Awake(){
         selectedGameobject = transform.Find("Selected").gameObject;
@@ -47,12 +48,12 @@ public class UnityRTS : MonoBehaviour
 
     private void Attack(){
         if(attackTimer>=UnitStat.attackSpeed){
-            Debug.Log("Attack");
+            r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
             attackTimer = 0;
         }
     }
 
-    public void TakeDamage(UnityRTS from,float dmg){
+    public void TakeDamage(float dmg){
         UnitStat.HP -=dmg;
     }
 }
