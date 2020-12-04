@@ -14,10 +14,11 @@ public class HealthBarScript : MonoBehaviour
     [SerializeField]
     private float updateSpeedSeconds;
     public Image bar;
+    public float fill;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        MaxHealth = unit.UnitStat.HP;
+        MaxHealth = unit.HP;
     }
 
     // Update is called once per frame
@@ -31,8 +32,9 @@ public class HealthBarScript : MonoBehaviour
             elapsed+=Time.deltaTime;
             bar.fillAmount = Mathf.Lerp(preChangePct,pct,elapsed/updateSpeedSeconds);
         }
-    */
-        bar.fillAmount = (float)unit.UnitStat.HP/(float)MaxHealth;;
+        */
+    fill = (float)unit.HP/(float)MaxHealth;
+    bar.fillAmount = fill;
 
         
     }

@@ -12,11 +12,25 @@ public class UnityRTS : MonoBehaviour
     private float attackTimer;
     private RTS_Controller r = new RTS_Controller();
 
+    public float HP;
+    public float def;
+    public float attackDamage;
+    public float attackSpeed;
+    //public float attack;
+    public  float attackRange;
+    public int goldCost;
+
     private void Awake(){
         selectedGameobject = transform.Find("Selected").gameObject;
         selectedGameobject.SetActive(false);
         agent = GetComponent<NavMeshAgent>();
-        attackTimer = UnitStat.attackSpeed;
+        HP = UnitStat.HP;
+        def = UnitStat.def;
+        attackDamage = UnitStat.attackDamage;
+        attackSpeed = UnitStat.attackSpeed;
+        attackRange = UnitStat.attackRange;
+        goldCost = UnitStat.goldCost;
+        attackTimer =attackSpeed;
     }
 
     void Update(){
@@ -26,7 +40,7 @@ public class UnityRTS : MonoBehaviour
 
             float distance = (transform.position - currentTarget.position).magnitude;
 
-            if(distance<= UnitStat.attackRange){
+            if(distance<= attackRange){
                 Attack();
             }
 
@@ -47,13 +61,13 @@ public class UnityRTS : MonoBehaviour
     }
 
     private void Attack(){
-        if(attackTimer>=UnitStat.attackSpeed){
+        if(attackTimer>=attackSpeed){
             r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
             attackTimer = 0;
         }
     }
 
     public void TakeDamage(float dmg){
-        UnitStat.HP -=dmg;
+        HP -=dmg;
     }
 }
