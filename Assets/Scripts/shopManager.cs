@@ -31,4 +31,12 @@ public class shopManager : MonoBehaviour
             player.playersUnities.Add(u);
         }
     }
+
+    public void BuyUnit2(){
+        if(player.gold >= unitsAvailable[0].goldCost){
+            UnityRTS u = Instantiate(unitsAvailable[1],Spawn.transform.position,new Quaternion());
+            player.gold-=unitsAvailable[0].goldCost;
+            player.playersUnities.Add(u);
+        }
+    }
 }

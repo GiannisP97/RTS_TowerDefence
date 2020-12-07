@@ -18,4 +18,8 @@ public class player : MonoBehaviour
     {
         
     }
+
+    public void removeUnit(UnityRTS u){
+        playersUnities.Remove(u);
+    }
 }

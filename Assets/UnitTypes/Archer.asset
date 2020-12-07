@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 147f377c742095545821708e87d3af39, type: 3}
-  m_Name: Warrior
+  m_Name: Archer
   m_EditorClassIdentifier: 
-  HP: 100
+  HP: 50
   def: 2
   attackDamage: 10
-  attackSpeed: 2
-  attackRange: 1.5
-  goldCost: 100
+  attackSpeed: 0.5
+  attackRange: 20
+  goldCost: 150

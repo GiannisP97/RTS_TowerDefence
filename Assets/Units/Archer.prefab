@@ -116,6 +116,7 @@ MonoBehaviour:
   unit: {fileID: 1344633816110264577}
   updateSpeedSeconds: 0.2
   bar: {fileID: 3699213870381868779}
+  fill: 0
 --- !u!1 &1344633816110264587
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +132,7 @@ GameObject:
   - component: {fileID: 1344633816110264586}
   - component: {fileID: 1344633816110264577}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,7 +181,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a1a57ce6ce06db14f85833cb45730f73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -249,7 +250,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d360352b778d249a45752e86bf59db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitStat: {fileID: 11400000, guid: a37e12c53b36cd747b7dc85ca4ec12e6, type: 2}
+  UnitStat: {fileID: 11400000, guid: 02fb21b413836de419dbc21d64cf49ed, type: 2}
+  HP: 0
+  def: 0
+  attackDamage: 0
+  attackSpeed: 0
+  attackRange: 0
+  goldCost: 0
 --- !u!1 &1502508157251192772
 GameObject:
   m_ObjectHideFlags: 0

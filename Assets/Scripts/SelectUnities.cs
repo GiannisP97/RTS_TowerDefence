@@ -61,7 +61,12 @@ public class SelectUnities : MonoBehaviour
                 RaycastHit hit;
                 if(Physics.Raycast(ray,out hit)){
                     UnityRTS u = hit.transform.gameObject.GetComponent<UnityRTS>();
-                    if(u!=null){
+                    bool exist = false;
+                    foreach(UnityRTS unit in player.playersUnities){
+                        if(unit==u)
+                            exist = true;
+                    }
+                    if(u!=null && exist) {
                         foreach(UnityRTS unit in selectedUnities){
                             unit.SetSelectedVisibility(false);
                         }
@@ -93,10 +98,12 @@ public class SelectUnities : MonoBehaviour
                     }  
                 }
             }
-        }
+        }   
+    }
 
-                
-        
-        
+
+    public void UnitDied(UnityRTS u){
+        selectedUnities.Remove(u);
+        player.removeUnit(u);
     }
 }
