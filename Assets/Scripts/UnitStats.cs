@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "AI/UnitStats")]
 public class UnitStats : ScriptableObject
@@ -13,7 +13,13 @@ public class UnitStats : ScriptableObject
     public float attackSpeed;
     //public float attack;
     public  float attackRange;
+
+    public float healthRegenaration;
     [Header("Other")]
 
     public int goldCost;
+
+    public string unit_name;
+
+    public Sprite icon;
 }

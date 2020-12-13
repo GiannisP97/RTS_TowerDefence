@@ -16,11 +16,16 @@ public class UnityRTS : MonoBehaviour
     private SelectUnities selectUnities;
 
     public float HP;
+
+    public string Unit_name;
+    public float MaxHP;
     public float def;
     public float attackDamage;
     public float attackSpeed;
     //public float attack;
     public  float attackRange;
+
+    public float healthRegen;
     public int goldCost;
 
     private void Awake(){
@@ -29,13 +34,15 @@ public class UnityRTS : MonoBehaviour
         selectedGameobject.SetActive(false);
         agent = GetComponent<NavMeshAgent>();
         HP = UnitStat.HP;
+        MaxHP = HP;
         def = UnitStat.def;
         attackDamage = UnitStat.attackDamage;
         attackSpeed = UnitStat.attackSpeed;
         attackRange = UnitStat.attackRange;
         goldCost = UnitStat.goldCost;
         attackTimer =attackSpeed;
-        
+        healthRegen = UnitStat.healthRegenaration;
+        Unit_name = UnitStat.name;
 
     }
 
@@ -49,6 +56,12 @@ public class UnityRTS : MonoBehaviour
             animator.SetInteger("State",0);
             animator.SetBool("Running",false);
         }
+
+        if(HP<MaxHP){
+            HP+=healthRegen*Time.deltaTime;
+        }
+        else
+        HP = MaxHP;
 
         animator.SetFloat("Velocity",agent.velocity.magnitude);
         if(currentTarget!=null){
@@ -76,9 +89,17 @@ public class UnityRTS : MonoBehaviour
         selectedGameobject.SetActive(visibility);
     }
 
-    public void moveToposition(Vector3 position){
-        agent.destination = position;
+    public Vector3 calculatePath(Vector3 position){
+
+        Vector3 path =  position - transform.position;
+        return path;
     }
+
+    public void moveToPosiotion(Vector3 path){
+        agent.destination = transform.position + path;
+    }
+
+
 
     public void setCurrentTarget(Transform t){
         if(t!=this.transform)

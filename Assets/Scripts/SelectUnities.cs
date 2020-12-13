@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class SelectUnities : MonoBehaviour
 {
+    public Transform stats_panel;
+
+    public Transform name_panel;
     //public Camera cam;
     private Vector3 startposition;
     private Vector3 endPosition;
@@ -12,18 +15,39 @@ public class SelectUnities : MonoBehaviour
     private player player;
     // Start is called before the first frame update
     private List<UnityRTS> selectedUnities;
+
+    private Text health;
+    private Text unitName;
+    private Text attackDamage;
+    private Text attackSpeed;
+    private Text attackRange;
+    private Text healthRegen;
+    private Text defence;
+    private Image Icon;
+    private Image healthbar;
     [SerializeField] private RectTransform selectionAreaTransform;
     void Awake()
     {
         selectedUnities = new List<UnityRTS>();
         selectionAreaTransform.gameObject.SetActive(false);
         player = GetComponent<player>();
+        healthRegen = stats_panel.Find("reganaretion value").GetComponent<Text>();
+        attackDamage = stats_panel.Find("attack damage value").GetComponent<Text>();
+        attackSpeed = stats_panel.Find("attack speed value").GetComponent<Text>();
+        attackRange = stats_panel.Find("attack range value").GetComponent<Text>();
+        defence = stats_panel.Find("defence value").GetComponent<Text>();
+
+        health = name_panel.Find("health").GetComponent<Text>();
+        unitName = name_panel.Find("unitName").GetComponent<Text>();
+        Icon = name_panel.Find("unit_icon").GetComponent<Image>();
+        healthbar = name_panel.Find("foreground").GetComponent<Image>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        update_health_UI();
         if(Input.GetMouseButtonDown(0)){
             selectionAreaTransform.gameObject.SetActive(true);
             startMousePosition  = Input.mousePosition;
@@ -32,10 +56,9 @@ public class SelectUnities : MonoBehaviour
             Vector3 s =Input.mousePosition;
             Vector3 lowerleft = new Vector3(Mathf.Min(startMousePosition.x,s.x),Mathf.Min(startMousePosition.y,s.y));
             Vector3 upperRight = new Vector3(Mathf.Max(startMousePosition.x,s.x),Mathf.Max(startMousePosition.y,s.y));
-
-            //selectionAreaTransform.pivot = lowerleft;
             selectionAreaTransform.position = lowerleft;
-            selectionAreaTransform.localScale = upperRight - lowerleft;
+            selectionAreaTransform.sizeDelta = new Vector2(upperRight.x - lowerleft.x,upperRight.y - lowerleft.y);
+            //selectionAreaTransform.localScale = upperRight - lowerleft;
         }
         if(Input.GetMouseButtonUp(0)){
             Vector3 s = Input.mousePosition;
@@ -54,8 +77,10 @@ public class SelectUnities : MonoBehaviour
                     selectedUnities.Add(unit);
                     unit.SetSelectedVisibility(true);
                 }
-            }
 
+            
+            }
+            update_stats();
             if(startMousePosition==s){
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -73,11 +98,12 @@ public class SelectUnities : MonoBehaviour
                         selectedUnities.Clear();
                         selectedUnities.Add(u);
                         u.SetSelectedVisibility(true);
+                        update_stats();
                     }
                 }
             }
 
-            Debug.Log(selectedUnities.Count);
+            //Debug.Log(selectedUnities.Count);
             
         }
 
@@ -92,13 +118,40 @@ public class SelectUnities : MonoBehaviour
                     }
                 }
                 else{
+                    Vector3 path = selectedUnities[0].calculatePath(hit.point);
                     foreach(UnityRTS un in selectedUnities){
-                        un.moveToposition(hit.point);
+                        un.moveToPosiotion(path);
                         un.setCurrentTarget(null);
                     }  
                 }
             }
         }   
+    }
+    private void update_health_UI(){
+        if(selectedUnities.Count>0){
+            health.text = ((int)selectedUnities[0].HP).ToString()+"/"+((int)selectedUnities[0].MaxHP).ToString();
+            healthbar.fillAmount = selectedUnities[0].HP/selectedUnities[0].MaxHP;
+        }
+    }
+    
+
+    private void update_stats(){
+        if(selectedUnities.Count>0){
+            stats_panel.gameObject.SetActive(true);
+            name_panel.gameObject.SetActive(true);
+            attackDamage.text = selectedUnities[0].attackDamage.ToString();
+            attackRange.text = selectedUnities[0].attackRange.ToString();
+            attackSpeed.text = selectedUnities[0].attackSpeed.ToString();
+            defence.text = selectedUnities[0].def.ToString();
+            healthRegen.text = selectedUnities[0].healthRegen.ToString();
+
+            unitName.text =selectedUnities[0].Unit_name;
+            Icon.sprite = selectedUnities[0].UnitStat.icon;
+        }
+        else{
+            stats_panel.gameObject.SetActive(false);
+            name_panel.gameObject.SetActive(false);
+        }
     }
 
 
