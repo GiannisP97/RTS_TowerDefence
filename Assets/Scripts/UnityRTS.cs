@@ -48,11 +48,14 @@ public class UnityRTS : MonoBehaviour
 
     void Update(){
         attackTimer += Time.deltaTime;
-        if(agent.velocity.magnitude>0.1){
+        if(agent.velocity.magnitude>0.1 && !animator.GetBool("attacking")){
             animator.SetInteger("State",1);
             animator.SetBool("Running",true);
         }
-        else if(!animator.GetBool("attacking")){
+        else
+            animator.SetBool("Running",false);
+
+        if(!animator.GetBool("attacking") && !animator.GetBool("Running")){
             animator.SetInteger("State",0);
             animator.SetBool("Running",false);
         }
@@ -64,14 +67,16 @@ public class UnityRTS : MonoBehaviour
         HP = MaxHP;
 
         animator.SetFloat("Velocity",agent.velocity.magnitude);
+        animator.SetFloat("AttackSpeed",2/attackSpeed);
         if(currentTarget!=null){
             agent.destination = currentTarget.position;
             float distance = (transform.position - currentTarget.position).magnitude;
             agent.stoppingDistance = attackRange;
             if(distance<= attackRange){
                 if(attackTimer>=attackSpeed){
-                    coroutine = Attack(0.8f);
+                    coroutine = Attack(attackSpeed*0.4f);
                     StartCoroutine(coroutine);
+                    AnimatorAttack();
                 }
             }
         }
@@ -110,22 +115,27 @@ public class UnityRTS : MonoBehaviour
 
      private IEnumerator Attack(float waitTime)
     {
-        agent.velocity = new Vector3();
-        if(animator.GetBool("Running")){
-            animator.SetBool("Running",false);
-        }
-        agent.isStopped = true;
-        animator.SetBool("attacking",true);
-        animator.SetInteger("State",2);
-        attackTimer = 0;
 
         yield return new WaitForSeconds(waitTime);
 
         if(currentTarget!=null){
             r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
         }
+        
+        yield return new WaitForSeconds(waitTime);
         animator.SetBool("attacking",false);
+        animator.SetInteger("State",0);
         agent.isStopped = false;
+    }
+
+    private void AnimatorAttack(){
+        attackTimer = 0;
+        animator.SetBool("Running",false);
+        agent.isStopped = true;
+        animator.SetBool("attacking",true);
+        animator.SetInteger("State",2);
+        
+
     }
 
 
