@@ -110,19 +110,21 @@ public class SelectUnities : MonoBehaviour
         if(Input.GetMouseButtonDown(1)){
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(ray,out hit)){
-                UnityRTS u = hit.transform.gameObject.GetComponent<UnityRTS>();
-                if(u!=null){
-                    foreach(UnityRTS unit in selectedUnities){
-                        unit.setCurrentTarget(u.gameObject.transform);
+            if(selectedUnities.Count>0){
+                if(Physics.Raycast(ray,out hit)){
+                    UnityRTS u = hit.transform.gameObject.GetComponent<UnityRTS>();
+                    if(u!=null){
+                        foreach(UnityRTS unit in selectedUnities){
+                            unit.setCurrentTarget(u.gameObject.transform);
+                        }
                     }
-                }
-                else{
-                    Vector3 path = selectedUnities[0].calculatePath(hit.point);
-                    foreach(UnityRTS un in selectedUnities){
-                        un.moveToPosiotion(path);
-                        un.setCurrentTarget(null);
-                    }  
+                    else{
+                        Vector3 path = selectedUnities[0].calculatePath(hit.point);
+                        foreach(UnityRTS un in selectedUnities){
+                            un.moveToPosiotion(path);
+                            un.setCurrentTarget(null);
+                        }  
+                    }
                 }
             }
         }   

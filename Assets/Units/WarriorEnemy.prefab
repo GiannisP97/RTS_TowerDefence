@@ -132,8 +132,8 @@ GameObject:
   - component: {fileID: 1344633816110264586}
   - component: {fileID: 1344633816110264577}
   m_Layer: 0
-  m_Name: UnitEnemy
-  m_TagString: Untagged
+  m_Name: WarriorEnemy
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,11 +251,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitStat: {fileID: 11400000, guid: a37e12c53b36cd747b7dc85ca4ec12e6, type: 2}
+  animator: {fileID: 0}
   HP: 0
+  Unit_name: 
+  MaxHP: 0
   def: 0
   attackDamage: 0
   attackSpeed: 0
   attackRange: 0
+  healthRegen: 0
   goldCost: 0
 --- !u!1 &1502508157251192772
 GameObject:
