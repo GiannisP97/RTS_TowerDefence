@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class AgentHeadingToGoal : MonoBehaviour
 {
    // public Transform goal;
-    public GameObject[] paths;
+    public GameObject[] paths = new GameObject[4] ;
     public NavMeshAgent agent;
 
     private int startingPath = 0;
@@ -30,7 +30,7 @@ public class AgentHeadingToGoal : MonoBehaviour
                 {
                     agent.isStopped=true;
                 } else
-                {   Debug.Log("checkpoint");
+                {   //Debug.Log("checkpoint");
                     startingPath++;
                 }
             }

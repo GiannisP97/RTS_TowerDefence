@@ -16,8 +16,9 @@ MonoBehaviour:
   def: 1
   attackDamage: 1
   attackSpeed: 1
+  movementSpeed: 10
   attackRange: 1
-  healthRegenaration: 0.5
+  healthRegenaration: 0.2
   goldCost: 150
   unit_name: ogre
   icon: {fileID: 0}

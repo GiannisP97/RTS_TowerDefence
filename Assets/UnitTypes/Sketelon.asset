@@ -16,6 +16,7 @@ MonoBehaviour:
   def: 1
   attackDamage: 8
   attackSpeed: 0.5
+  movementSpeed: 5
   attackRange: 1.5
   healthRegenaration: 0.8
   goldCost: 150

@@ -22,6 +22,8 @@ public class UnityRTS : MonoBehaviour
     public float def;
     public float attackDamage;
     public float attackSpeed;
+    public float movementSpeed;
+
     //public float attack;
     public  float attackRange;
 
@@ -43,6 +45,7 @@ public class UnityRTS : MonoBehaviour
         attackTimer =attackSpeed;
         healthRegen = UnitStat.healthRegenaration;
         Unit_name = UnitStat.name;
+        movementSpeed = UnitStat.movementSpeed;
 
     }
 
@@ -65,7 +68,7 @@ public class UnityRTS : MonoBehaviour
         }
         else
         HP = MaxHP;
-
+        agent.speed = movementSpeed;
         animator.SetFloat("Velocity",agent.velocity.magnitude);
         animator.SetFloat("AttackSpeed",2/attackSpeed);
         if(currentTarget!=null){

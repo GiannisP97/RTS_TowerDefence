@@ -15,7 +15,8 @@ MonoBehaviour:
   HP: 100
   def: 2
   attackDamage: 10
-  attackSpeed: 2
+  attackSpeed: 1.5
+  movementSpeed: 4
   attackRange: 1.5
   healthRegenaration: 2
   goldCost: 100
