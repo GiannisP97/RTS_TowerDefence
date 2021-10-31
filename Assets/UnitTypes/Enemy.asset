@@ -17,7 +17,7 @@ MonoBehaviour:
   attackDamage: 1
   attackSpeed: 1
   movementSpeed: 10
-  attackRange: 1
+  attackRange: 2
   healthRegenaration: 0.2
   goldCost: 150
   unit_name: ogre
