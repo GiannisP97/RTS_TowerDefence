@@ -12,11 +12,19 @@ public class AgentHeadingToGoal : MonoBehaviour
     private int startingPath = 0;
     private int pathLength = 0;
 
+    public bool canAttack = true;
+
+    public float aggroDistance = 10;
+
+    private bool attacking_player = false;
+
+
     void Start()
     {
         startingPath = 0;
         pathLength = paths.Length;
         agent = GetComponent<NavMeshAgent>();
+        
     }
 
     // Update is called once per frame
@@ -35,11 +43,34 @@ public class AgentHeadingToGoal : MonoBehaviour
                 }
             }
         }
+
+        if(canAttack){
+            float min=9999999;
+            UnityRTS temp_unit = null;
+            foreach (UnityRTS t in GameObject.Find("GameController").GetComponent<player>().playersUnities){
+                if(Vector3.Distance(t.gameObject.transform.position,transform.position)<min){
+                    min = Vector3.Distance(t.gameObject.transform.position,transform.position);
+                    temp_unit = t;
+                }
+            }
+
+            
+            if(min<aggroDistance && temp_unit!=null){
+                this.GetComponent<UnityRTS>().setCurrentTarget(temp_unit.gameObject.transform);
+                attacking_player = true;
+            }
+            else{
+                attacking_player = false;
+            }
+        }
+
+        if(!attacking_player){
+            agent.SetDestination(paths[startingPath].transform.position);
+        }
         
-        agent.SetDestination(paths[startingPath].transform.position);
 
         if (agent.isStopped){
-            Debug.Log("I stopped");
+            //Debug.Log("I stopped");
         }
 
     }

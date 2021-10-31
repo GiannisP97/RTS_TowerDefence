@@ -70,7 +70,7 @@ public class Waves : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         if(number_of_enemies >0){
-            GameObject o = Instantiate(enemy1,enemy_spawn.transform.position,enemy_spawn.transform.rotation);
+            GameObject o = Instantiate(enemy1,enemy_spawn.transform.position + new Vector3(Random.Range(0,5),0,Random.Range(0,5)),enemy_spawn.transform.rotation);
             o.GetComponent<AgentHeadingToGoal>().paths = checkpoints;
             //enemies.Add(o);
             coroutine = Spawn_wave(enemie_spawn_interval,number_of_enemies-1);

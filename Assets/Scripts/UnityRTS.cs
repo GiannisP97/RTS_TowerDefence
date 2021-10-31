@@ -123,6 +123,7 @@ public class UnityRTS : MonoBehaviour
 
         if(currentTarget!=null){
             r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
+            r.AttackBack(this,currentTarget.GetComponent<UnityRTS>());
         }
         
         yield return new WaitForSeconds(waitTime);
@@ -139,6 +140,10 @@ public class UnityRTS : MonoBehaviour
         animator.SetInteger("State",2);
         
 
+    }
+
+    public Transform getCurrentTarget(){
+        return currentTarget;
     }
 
 
