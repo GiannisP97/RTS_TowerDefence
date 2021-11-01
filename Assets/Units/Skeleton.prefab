@@ -84,6 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1239653127907779963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +229,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 16
+  m_Acceleration: 60
   avoidancePriority: 50
   m_AngularSpeed: 350
   m_StoppingDistance: 2.5
@@ -259,6 +260,7 @@ MonoBehaviour:
   def: 0
   attackDamage: 0
   attackSpeed: 0
+  movementSpeed: 0
   attackRange: 0
   healthRegen: 0
   goldCost: 0

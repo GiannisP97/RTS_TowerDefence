@@ -14,6 +14,7 @@ public class UnityRTS : MonoBehaviour
     private IEnumerator coroutine;
     public Animator animator;
     private SelectUnities selectUnities;
+    private Vector3 order_destination;
 
     public float HP;
 
@@ -26,7 +27,7 @@ public class UnityRTS : MonoBehaviour
 
     //public float attack;
     public  float attackRange;
-
+    public bool movingToPosition = false;
     public float healthRegen;
     public int goldCost;
 
@@ -55,8 +56,10 @@ public class UnityRTS : MonoBehaviour
             animator.SetInteger("State",1);
             animator.SetBool("Running",true);
         }
-        else
+        else{
             animator.SetBool("Running",false);
+            
+        }
 
         if(!animator.GetBool("attacking") && !animator.GetBool("Running")){
             animator.SetInteger("State",0);
@@ -85,7 +88,13 @@ public class UnityRTS : MonoBehaviour
         }
         else
             agent.stoppingDistance = 0;
-
+        
+        float dist=agent.remainingDistance; 
+        if (dist!=Mathf.Infinity && agent.remainingDistance==0 && transform.position==order_destination) {
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+            movingToPosition = false;
+        }
         if(HP<=0){
             selectUnities.UnitDied(this);
             Destroy(this.gameObject);
@@ -104,7 +113,8 @@ public class UnityRTS : MonoBehaviour
     }
 
     public void moveToPosiotion(Vector3 path){
-        agent.destination = transform.position + path;
+        order_destination = agent.destination = transform.position + path;
+        movingToPosition = true;
     }
 
 
@@ -123,6 +133,9 @@ public class UnityRTS : MonoBehaviour
 
         if(currentTarget!=null){
             r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
+        }
+
+        if(currentTarget!=null && !movingToPosition){
             r.AttackBack(this,currentTarget.GetComponent<UnityRTS>());
         }
         

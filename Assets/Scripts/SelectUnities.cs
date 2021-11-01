@@ -8,11 +8,13 @@ public class SelectUnities : MonoBehaviour
     public Transform stats_panel;
 
     public Transform name_panel;
+    public GameObject arrows;
     //public Camera cam;
     private Vector3 startposition;
     private Vector3 endPosition;
     private Vector3 startMousePosition;
     private player player;
+    private GameObject arrow_temp = null;
     // Start is called before the first frame update
     private List<UnityRTS> selectedUnities;
 
@@ -122,6 +124,9 @@ public class SelectUnities : MonoBehaviour
                         Vector3 path = selectedUnities[0].calculatePath(hit.point);
                         foreach(UnityRTS un in selectedUnities){
                             un.moveToPosiotion(path);
+                            Destroy(arrow_temp);
+                            arrow_temp = Instantiate(arrows,hit.point - new Vector3(0,0.5f,0),Quaternion.identity);
+                            Destroy(arrow_temp,0.5f);
                             un.setCurrentTarget(null);
                         }  
                     }
