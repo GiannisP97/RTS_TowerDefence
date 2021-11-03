@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 80
   def: 1
-  attackDamage: 8
-  attackSpeed: 0.5
+  attackDamage: 15
+  attackSpeed: 1
   movementSpeed: 5
-  attackRange: 1.5
+  attackRange: 6
   healthRegenaration: 0.8
   goldCost: 150
   unit_name: Skeleton

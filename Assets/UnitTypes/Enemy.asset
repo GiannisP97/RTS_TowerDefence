@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 200
   def: 1
-  attackDamage: 1
+  attackDamage: 10
   attackSpeed: 1
-  movementSpeed: 10
+  movementSpeed: 4
   attackRange: 2
   healthRegenaration: 0.2
   goldCost: 150
