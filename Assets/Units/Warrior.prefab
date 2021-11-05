@@ -84,7 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1239653127907779963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitStat: {fileID: 11400000, guid: a37e12c53b36cd747b7dc85ca4ec12e6, type: 2}
   animator: {fileID: 9007063876831870878}
+  owner: 0
   HP: 0
   Unit_name: 
   MaxHP: 0
@@ -264,6 +265,7 @@ MonoBehaviour:
   attackRange: 0
   healthRegen: 0
   goldCost: 0
+  aggroDistance: 10
 --- !u!1 &1502508157251192772
 GameObject:
   m_ObjectHideFlags: 0

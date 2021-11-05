@@ -255,6 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitStat: {fileID: 11400000, guid: f0a109394575cef40b66bf3ff5deb133, type: 2}
   animator: {fileID: 8823018995098587200}
+  owner: 1
   HP: 0
   Unit_name: 
   MaxHP: 0
@@ -263,8 +264,10 @@ MonoBehaviour:
   attackSpeed: 0
   movementSpeed: 0
   attackRange: 0
+  movingToPosition: 0
   healthRegen: 0
   goldCost: 0
+  aggroDistance: 10
 --- !u!114 &2862793079895269702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +288,7 @@ MonoBehaviour:
   agent: {fileID: 1344633816110264586}
   canAttack: 1
   aggroDistance: 10
+  attacking_player: 0
 --- !u!1 &1502508157251192772
 GameObject:
   m_ObjectHideFlags: 0

@@ -55,13 +55,7 @@ public class Waves : MonoBehaviour
             next_wave_time.text = time_left.ToString();
         }
 
-        /*
-        foreach(GameObject e in enemies){
-            if(e==null){
-                //enemies.Remove(e);
-            }
-        }
-        */
+        enemies.RemoveAll(d => d == null);
 
     }
 
@@ -72,7 +66,7 @@ public class Waves : MonoBehaviour
         if(number_of_enemies >0){
             GameObject o = Instantiate(enemy1,enemy_spawn.transform.position + new Vector3(Random.Range(0,5),0,Random.Range(0,5)),enemy_spawn.transform.rotation);
             o.GetComponent<AgentHeadingToGoal>().paths = checkpoints;
-            //enemies.Add(o);
+            enemies.Add(o);
             coroutine = Spawn_wave(enemie_spawn_interval,number_of_enemies-1);
             StartCoroutine(coroutine);
         }

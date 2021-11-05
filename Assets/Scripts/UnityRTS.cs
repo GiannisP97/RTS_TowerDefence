@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum Owner{player,enemy};
+
 public class UnityRTS : MonoBehaviour
 {
     public UnitStats UnitStat;
@@ -15,21 +17,21 @@ public class UnityRTS : MonoBehaviour
     public Animator animator;
     private SelectUnities selectUnities;
     private Vector3 order_destination;
-
+    private bool movingToPosition = false;
+    public Owner owner;
     public float HP;
-
     public string Unit_name;
     public float MaxHP;
     public float def;
     public float attackDamage;
     public float attackSpeed;
     public float movementSpeed;
-
-    //public float attack;
     public  float attackRange;
-    public bool movingToPosition = false;
+
     public float healthRegen;
     public int goldCost;
+    public float aggroDistance = 10;
+
 
     private void Awake(){
         selectUnities = GameObject.Find("GameController").GetComponent<SelectUnities>();
@@ -90,9 +92,9 @@ public class UnityRTS : MonoBehaviour
             agent.stoppingDistance = 0;
         
         float dist=agent.remainingDistance; 
-        if (dist!=Mathf.Infinity && agent.remainingDistance==0 && transform.position==order_destination) {
-            agent.velocity = Vector3.zero;
-            agent.isStopped = true;
+        if(dist!=Mathf.Infinity && dist==0){
+            //agent.velocity = Vector3.zero;
+            //agent.isStopped = true;
             movingToPosition = false;
         }
         if(HP<=0){
@@ -100,6 +102,41 @@ public class UnityRTS : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        if(owner==Owner.enemy){
+            float min=9999999;
+            UnityRTS temp_unit = null;
+            foreach (UnityRTS t in GameObject.Find("GameController").GetComponent<player>().playersUnities)
+            {
+                if(Vector3.Distance(t.gameObject.transform.position,transform.position)<min){
+                    //min = CalculatePathLength(t.gameObject.transform.position);
+                    min = Vector3.Distance(t.gameObject.transform.position,transform.position);
+                    temp_unit = t;
+                }
+            }
+
+            
+            if(min<aggroDistance && temp_unit!=null){
+                setCurrentTarget(temp_unit.gameObject.transform);
+                this.GetComponent<AgentHeadingToGoal>().attacking_player = true;
+            }
+            else{
+                this.GetComponent<AgentHeadingToGoal>().attacking_player = false;
+            }
+        }
+        if(owner==Owner.player && !movingToPosition){
+            GameObject temp_unit = null;
+            float min = 99999999;
+            foreach (GameObject t in GameObject.Find("Spawn Enemies").GetComponent<Waves>().enemies){
+                if(Vector3.Distance(t.transform.position,transform.position)<min){
+                    min = Vector3.Distance(t.transform.position,transform.position);
+                    temp_unit = t;
+                }
+            }
+
+            if(min<aggroDistance && temp_unit!=null){
+                setCurrentTarget(temp_unit.gameObject.transform);
+            }
+        }
     }
 
     public void SetSelectedVisibility(bool visibility){
@@ -113,10 +150,22 @@ public class UnityRTS : MonoBehaviour
     }
 
     public void moveToPosiotion(Vector3 path){
-        order_destination = agent.destination = transform.position + path;
+        agent.destination = transform.position + path;
         movingToPosition = true;
     }
 
+    public void moveToLocation(Vector3 location){
+        agent.destination = location;
+        movingToPosition = true;
+    }
+
+    public void moveToPositionWithAttack(Vector3 path){
+        agent.destination = transform.position + path;
+    }
+
+    public void moveToLocationWithAttack(Vector3 location){
+        agent.destination = location;
+    }
 
 
     public void setCurrentTarget(Transform t){
@@ -136,7 +185,7 @@ public class UnityRTS : MonoBehaviour
         }
 
         if(currentTarget!=null && !movingToPosition){
-            r.AttackBack(this,currentTarget.GetComponent<UnityRTS>());
+            //r.AttackBack(this,currentTarget.GetComponent<UnityRTS>());
         }
         
         yield return new WaitForSeconds(waitTime);

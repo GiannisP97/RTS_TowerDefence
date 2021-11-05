@@ -16,7 +16,7 @@ public class AgentHeadingToGoal : MonoBehaviour
 
     public float aggroDistance = 10;
 
-    private bool attacking_player = false;
+    public bool attacking_player = false;
 
 
     void Start()
@@ -41,28 +41,6 @@ public class AgentHeadingToGoal : MonoBehaviour
                 {   //Debug.Log("checkpoint");
                     startingPath++;
                 }
-            }
-        }
-
-        if(canAttack){
-            float min=9999999;
-            UnityRTS temp_unit = null;
-            foreach (UnityRTS t in GameObject.Find("GameController").GetComponent<player>().playersUnities)
-            {
-                if(Vector3.Distance(t.gameObject.transform.position,transform.position)<min){
-                    min = CalculatePathLength(t.gameObject.transform.position);
-                    //min = Vector3.Distance(t.gameObject.transform.position,transform.position);
-                    temp_unit = t;
-                }
-            }
-
-            
-            if(min<aggroDistance && temp_unit!=null){
-                this.GetComponent<UnityRTS>().setCurrentTarget(temp_unit.gameObject.transform);
-                attacking_player = true;
-            }
-            else{
-                attacking_player = false;
             }
         }
 
