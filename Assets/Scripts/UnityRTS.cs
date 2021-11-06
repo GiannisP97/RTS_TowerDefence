@@ -27,10 +27,10 @@ public class UnityRTS : MonoBehaviour
     public float attackSpeed;
     public float movementSpeed;
     public  float attackRange;
-
     public float healthRegen;
     public int goldCost;
     public float aggroDistance = 10;
+    public bool isTower = false;
 
 
     private void Awake(){

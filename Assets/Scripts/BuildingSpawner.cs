@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class AutoSpawner : MonoBehaviour
+public class BuildingSpawner : MonoBehaviour
 {
     public GameObject unit;
     public float SpawnRate;
+    public string building_name;
     private float SpawnTimer;
+    public Sprite icon;
     private player ply;
     public Image bar;
-    public float fill;
-
+    private float fill;
     public GameObject canvas;
 
     public GameObject flag;
@@ -40,5 +41,9 @@ public class AutoSpawner : MonoBehaviour
     void LateUpdate(){
         canvas.transform.LookAt(canvas.transform.position + (Camera.main.transform.rotation * Vector3.back),
             Camera.main.transform.rotation * Vector3.up);
+    }
+
+    public void setFlag(Vector3 loc){
+        flag.transform.position = loc;
     }
 }

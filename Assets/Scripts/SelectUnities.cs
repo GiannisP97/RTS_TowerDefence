@@ -18,6 +18,8 @@ public class SelectUnities : MonoBehaviour
     // Start is called before the first frame update
     private List<UnityRTS> selectedUnities;
 
+    private BuildingSpawner building;
+
     private Text health;
     private Text unitName;
     private Text attackDamage;
@@ -53,6 +55,7 @@ public class SelectUnities : MonoBehaviour
         if(Input.GetMouseButtonDown(0)){
             selectionAreaTransform.gameObject.SetActive(true);
             startMousePosition  = Input.mousePosition;
+            building = null;
         }
         if(Input.GetMouseButton(0)){
             Vector3 s =Input.mousePosition;
@@ -88,6 +91,7 @@ public class SelectUnities : MonoBehaviour
                 RaycastHit hit;
                 if(Physics.Raycast(ray,out hit)){
                     UnityRTS u = hit.transform.gameObject.GetComponent<UnityRTS>();
+                    building = hit.transform.gameObject.GetComponent<BuildingSpawner>();
                     bool exist = false;
                     foreach(UnityRTS unit in player.playersUnities){
                         if(unit==u)
@@ -102,6 +106,8 @@ public class SelectUnities : MonoBehaviour
                         u.SetSelectedVisibility(true);
                         update_stats();
                     }
+                    if(building!=null)
+                        update_stats();
                 }
             }
 
@@ -132,6 +138,11 @@ public class SelectUnities : MonoBehaviour
                     }
                 }
             }
+            if(building!=null){
+                if(Physics.Raycast(ray,out hit)){
+                    building.setFlag(hit.point);
+                }
+            }
         }   
     }
     private void update_health_UI(){
@@ -158,6 +169,12 @@ public class SelectUnities : MonoBehaviour
         else{
             stats_panel.gameObject.SetActive(false);
             name_panel.gameObject.SetActive(false);
+        }
+        if(building!=null){
+            stats_panel.gameObject.SetActive(false);
+            name_panel.gameObject.SetActive(true);
+            Icon.sprite = building.icon;
+            unitName.text = building.building_name;
         }
     }
 
