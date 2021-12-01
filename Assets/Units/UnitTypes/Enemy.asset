@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147f377c742095545821708e87d3af39, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  HP: 200
+  HP: 120
   def: 1
-  attackDamage: 10
-  attackSpeed: 1
-  movementSpeed: 4
-  attackRange: 2
+  attackDamage: 20
+  attackSpeed: 2
+  movementSpeed: 2
+  attackRange: 1.5
   healthRegenaration: 0.2
   goldCost: 150
   unit_name: ogre

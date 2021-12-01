@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147f377c742095545821708e87d3af39, type: 3}
   m_Name: Sketelon
   m_EditorClassIdentifier: 
-  HP: 80
+  HP: 40
   def: 1
-  attackDamage: 15
+  attackDamage: 5
   attackSpeed: 1
-  movementSpeed: 5
-  attackRange: 6
+  movementSpeed: 6
+  attackRange: 1.5
   healthRegenaration: 0.8
   goldCost: 150
   unit_name: Skeleton
