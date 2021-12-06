@@ -24,18 +24,10 @@ public class shopManager : MonoBehaviour
         Gold.text = player.gold.ToString();
     }
 
-    public void BuyUnit(){
-        if(player.gold >= unitsAvailable[0].goldCost){
-            UnityRTS u = Instantiate(unitsAvailable[0],Spawn.transform.position,new Quaternion());
-            player.gold-=unitsAvailable[0].UnitStat.goldCost;
-            player.playersUnities.Add(u);
-        }
-    }
-
-    public void BuyUnit2(){
-        if(player.gold >= unitsAvailable[1].goldCost){
-            UnityRTS u = Instantiate(unitsAvailable[1],Spawn.transform.position,new Quaternion());
-            player.gold-=unitsAvailable[1].UnitStat.goldCost;
+    public void BuyUnit(int idex){
+        if(player.gold >= unitsAvailable[idex].goldCost){
+            UnityRTS u = Instantiate(unitsAvailable[idex],Spawn.transform.position,new Quaternion());
+            player.gold-=unitsAvailable[idex].UnitStat.goldCost;
             player.playersUnities.Add(u);
         }
     }

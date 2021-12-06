@@ -31,7 +31,9 @@ public class UnityRTS : MonoBehaviour
     public int goldCost;
     public float aggroDistance = 10;
     public bool isTower = false;
-
+    
+    private float attack_anim_time = 0;
+    private AnimatorClipInfo[] m_CurrentClipInfo;
 
     private void Awake(){
         selectUnities = GameObject.Find("GameController").GetComponent<SelectUnities>();
@@ -50,46 +52,56 @@ public class UnityRTS : MonoBehaviour
         Unit_name = UnitStat.name;
         movementSpeed = UnitStat.movementSpeed;
 
+
+        m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        attack_anim_time = m_CurrentClipInfo[0].clip.length;
+
+        foreach(AnimatorClipInfo d in m_CurrentClipInfo){
+            Debug.Log(d.clip.name);
+            if(d.clip.name=="attack"){
+                attack_anim_time = d.clip.length;
+            }
+        }
+
+        Debug.Log(attack_anim_time);
     }
 
     void Update(){
         attackTimer += Time.deltaTime;
-        if(agent.velocity.magnitude>0.1 && !animator.GetBool("attacking")){
+        
+        animator.SetFloat("Velocity",movementSpeed/10);
+        animator.SetFloat("AttackSpeed",1/attackSpeed);
+        agent.speed = movementSpeed;
+
+
+        if(agent.velocity.magnitude>0 && animator.GetInteger("State")!=2){
             animator.SetInteger("State",1);
-            animator.SetBool("Running",true);
-        }
-        else{
-            animator.SetBool("Running",false);
-            
         }
 
-        if(!animator.GetBool("attacking") && !animator.GetBool("Running")){
-            animator.SetInteger("State",0);
-            animator.SetBool("Running",false);
+        if(agent.velocity.magnitude==0 && animator.GetInteger("State")!=2){
+           animator.SetInteger("State",0);
         }
+
 
         if(HP<MaxHP){
-            HP+=healthRegen*Time.deltaTime;
+            HP+=healthRegen*Time.deltaTime; //thelei allagi, na ginei ana 0.25 sec
         }
-        else
-        HP = MaxHP;
-        agent.speed = movementSpeed;
-        animator.SetFloat("Velocity",agent.velocity.magnitude);
-        animator.SetFloat("AttackSpeed",2/attackSpeed);
+
+        
         if(currentTarget!=null){
             agent.destination = currentTarget.position;
-            float distance = (transform.position - currentTarget.position).magnitude;
+            float distance = Vector3.Distance(transform.position,currentTarget.position);
             agent.stoppingDistance = attackRange;
             if(distance<= attackRange){
                 if(attackTimer>=attackSpeed){
-                    coroutine = Attack(attackSpeed*0.4f);
-                    StartCoroutine(coroutine);
-                    AnimatorAttack();
+                    StartCoroutine(Attack(attack_anim_time));
+                    Debug.Log(attack_anim_time);
                 }
             }
         }
-        else
+        else{
             agent.stoppingDistance = 0;
+        }
         
         float dist=agent.remainingDistance; 
         if(dist!=Mathf.Infinity && dist==0){
@@ -99,6 +111,8 @@ public class UnityRTS : MonoBehaviour
         }
         if(HP<=0){
             selectUnities.UnitDied(this);
+            animator.SetInteger("State",4);
+            animator.enabled = false;
             Destroy(this.gameObject);
         }
 
@@ -123,6 +137,7 @@ public class UnityRTS : MonoBehaviour
                 this.GetComponent<AgentHeadingToGoal>().attacking_player = false;
             }
         }
+
         if(owner==Owner.player && !movingToPosition){
             GameObject temp_unit = null;
             float min = 99999999;
@@ -177,32 +192,20 @@ public class UnityRTS : MonoBehaviour
 
      private IEnumerator Attack(float waitTime)
     {
+        attackTimer = 0;
+        agent.isStopped = true;
 
         yield return new WaitForSeconds(waitTime);
-
+        
         if(currentTarget!=null){
             r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
         }
 
-        if(currentTarget!=null && !movingToPosition){
-            //r.AttackBack(this,currentTarget.GetComponent<UnityRTS>());
-        }
-        
-        yield return new WaitForSeconds(waitTime);
-        animator.SetBool("attacking",false);
+        //yield return new WaitForSeconds(waitTime/2);
         animator.SetInteger("State",0);
         agent.isStopped = false;
     }
 
-    private void AnimatorAttack(){
-        attackTimer = 0;
-        animator.SetBool("Running",false);
-        agent.isStopped = true;
-        animator.SetBool("attacking",true);
-        animator.SetInteger("State",2);
-        
-
-    }
 
     public Transform getCurrentTarget(){
         return currentTarget;

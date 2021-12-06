@@ -70,7 +70,7 @@ Material:
     - _GEMS1SMOOTHNESS: 1
     - _GEMS2SMOOTHNESS: 0
     - _GEMS3SMOOTHNESS: 0
-    - _HAIRSMOOTHNESS: 0.1
+    - _HAIRSMOOTHNESS: 0.253
     - _LEATHER1SMOOTHNESS: 0.3
     - _LEATHER2SMOOTHNESS: 0.3
     - _LEATHER3SMOOTHNESS: 0.3
@@ -83,15 +83,15 @@ Material:
     - _METAL3SMOOTHNESS: 0.7
     - _MetalicOn: 1
     - _OCCLUSION: 0.5
-    - _SCARSSMOOTHNESS: 0.3
+    - _SCARSSMOOTHNESS: 0.386
     - _SCLERASMOOTHNESS: 0.5
-    - _SKINSMOOTHNESS: 0.3
+    - _SKINSMOOTHNESS: 0.139
     - _SmoothnessOn: 1
     - __dirty: 1
     m_Colors:
     - _CLOTH1COLOR: {r: 0.1465379, g: 0.282117, b: 0.3490566, a: 0}
-    - _CLOTH2COLOR: {r: 2, g: 0, b: 0, a: 0}
-    - _CLOTH3COLOR: {r: 0.8773585, g: 0.6337318, b: 0.3434941, a: 0}
+    - _CLOTH2COLOR: {r: 1.0536608, g: 0.07455158, b: 0.07455146, a: 0}
+    - _CLOTH3COLOR: {r: 0.6509434, g: 0.43608063, b: 0.18115878, a: 0}
     - _COATOFARMSCOLOR: {r: 1, g: 0, b: 0, a: 0}
     - _EYESCOLOR: {r: 0.0734529, g: 0.1320755, b: 0.05046281, a: 1}
     - _FEATHERS1COLOR: {r: 0.7735849, g: 0.492613, b: 0.492613, a: 0}
@@ -100,14 +100,15 @@ Material:
     - _GEMS1COLOR: {r: 0.3773585, g: 0, b: 0.06650025, a: 0}
     - _GEMS2COLOR: {r: 0.2023368, g: 0, b: 0.4339623, a: 0}
     - _GEMS3COLOR: {r: 0, g: 0.1132075, b: 0.01206957, a: 0}
-    - _HAIRCOLOR: {r: 0.5943396, g: 0.3518379, b: 0.1093361, a: 0}
-    - _LEATHER1COLOR: {r: 0.4811321, g: 0.2041155, b: 0.08851016, a: 1}
-    - _LEATHER2COLOR: {r: 0.4245283, g: 0.190437, b: 0.09011215, a: 1}
-    - _LEATHER3COLOR: {r: 0.1698113, g: 0.04637412, b: 0.02963688, a: 1}
-    - _LIPSCOLOR: {r: 0.8301887, g: 0.3185886, b: 0.2780349, a: 0}
-    - _METAL1COLOR: {r: 2, g: 0.682353, b: 0.1960784, a: 0}
+    - _HAIRCOLOR: {r: 0, g: 0, b: 0, a: 0}
+    - _LEATHER1COLOR: {r: 0, g: 0, b: 0, a: 1}
+    - _LEATHER2COLOR: {r: 0, g: 0, b: 0, a: 1}
+    - _LEATHER3COLOR: {r: 0, g: 0, b: 0, a: 1}
+    - _LIPSCOLOR: {r: 0.6226415, g: 0.39797422, b: 0.21440013, a: 0}
+    - _METAL1COLOR: {r: 4.759381, g: 1.9629085, b: 0, a: 0}
     - _METAL2COLOR: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0}
     - _METAL3COLOR: {r: 0.4383232, g: 0.4383232, b: 0.4716981, a: 0}
     - _SCARSCOLOR: {r: 0.8490566, g: 0.5037117, b: 0.3884835, a: 0}
     - _SCLERACOLOR: {r: 0.9056604, g: 0.8159487, b: 0.8159487, a: 0}
     - _SKINCOLOR: {r: 2.02193, g: 1.0081, b: 0.6199315, a: 0}
+  m_BuildTextureStacks: []
