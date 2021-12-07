@@ -55,6 +55,7 @@ public class UnityRTS : MonoBehaviour
         //Debug.Log(animator.runtimeAnimatorController.animationClips[2].name);
 
         attack_anim_time = animator.runtimeAnimatorController.animationClips[2].length;
+        attack_anim_time = attack_anim_time/2;
         //Debug.Log(attack_anim_time);
     }
 
