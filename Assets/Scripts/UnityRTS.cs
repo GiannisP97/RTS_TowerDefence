@@ -52,25 +52,17 @@ public class UnityRTS : MonoBehaviour
         Unit_name = UnitStat.name;
         movementSpeed = UnitStat.movementSpeed;
 
+        //Debug.Log(animator.runtimeAnimatorController.animationClips[2].name);
 
-        m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
-        attack_anim_time = m_CurrentClipInfo[0].clip.length;
-
-        foreach(AnimatorClipInfo d in m_CurrentClipInfo){
-            Debug.Log(d.clip.name);
-            if(d.clip.name=="attack"){
-                attack_anim_time = d.clip.length;
-            }
-        }
-
-        Debug.Log(attack_anim_time);
+        attack_anim_time = animator.runtimeAnimatorController.animationClips[2].length;
+        //Debug.Log(attack_anim_time);
     }
 
     void Update(){
         attackTimer += Time.deltaTime;
         
-        animator.SetFloat("Velocity",movementSpeed/10);
-        animator.SetFloat("AttackSpeed",1/attackSpeed);
+        animator.SetFloat("Velocity",movementSpeed/5);
+        //animator.SetFloat("AttackSpeed",attack_anim_time/attackSpeed);
         agent.speed = movementSpeed;
 
 
@@ -93,9 +85,9 @@ public class UnityRTS : MonoBehaviour
             float distance = Vector3.Distance(transform.position,currentTarget.position);
             agent.stoppingDistance = attackRange;
             if(distance<= attackRange){
-                if(attackTimer>=attackSpeed){
+                if(attackTimer>=attackSpeed && animator.GetInteger("State")!=2){
+                    //Debug.Log(attack_anim_time);
                     StartCoroutine(Attack(attack_anim_time));
-                    Debug.Log(attack_anim_time);
                 }
             }
         }
@@ -105,8 +97,6 @@ public class UnityRTS : MonoBehaviour
         
         float dist=agent.remainingDistance; 
         if(dist!=Mathf.Infinity && dist==0){
-            //agent.velocity = Vector3.zero;
-            //agent.isStopped = true;
             movingToPosition = false;
         }
         if(HP<=0){
@@ -194,14 +184,12 @@ public class UnityRTS : MonoBehaviour
     {
         attackTimer = 0;
         agent.isStopped = true;
-
+        animator.SetInteger("State",2);
         yield return new WaitForSeconds(waitTime);
         
         if(currentTarget!=null){
             r.AutoAttack(this,currentTarget.GetComponent<UnityRTS>());
         }
-
-        //yield return new WaitForSeconds(waitTime/2);
         animator.SetInteger("State",0);
         agent.isStopped = false;
     }
