@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147f377c742095545821708e87d3af39, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: 
-  HP: 400
-  def: 3
+  HP: 450
+  def: 1
   attackDamage: 40
-  attackSpeed: 2
-  movementSpeed: 1.5
-  attackRange: 1.5
-  healthRegenaration: 0.75
-  goldCost: 1000
+  attackSpeed: 3
+  movementSpeed: 2
+  attackRange: 1
+  healthRegenaration: 1
+  goldCost: 200
   unit_name: Knight
   icon: {fileID: 21300000, guid: 404170945d3e72e428805313bcc5860d, type: 3}

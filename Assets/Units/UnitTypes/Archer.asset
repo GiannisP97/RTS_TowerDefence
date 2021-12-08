@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147f377c742095545821708e87d3af39, type: 3}
   m_Name: Archer
   m_EditorClassIdentifier: 
-  HP: 50
-  def: 2
-  attackDamage: 10
-  attackSpeed: 0.5
-  attackRange: 20
-  goldCost: 150
+  HP: 120
+  def: 1
+  attackDamage: 15
+  attackSpeed: 2
+  movementSpeed: 4
+  attackRange: 10
+  healthRegenaration: 0.4
+  goldCost: 90
+  unit_name: Archer
+  icon: {fileID: 21300000, guid: 1ebede4dacb548145aca21369047b1d3, type: 3}

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 147f377c742095545821708e87d3af39, type: 3}
-  m_Name: Ninja
+  m_Name: Axeman
   m_EditorClassIdentifier: 
-  HP: 80
+  HP: 180
   def: 1
-  attackDamage: 10
-  attackSpeed: 0.75
-  movementSpeed: 10
-  attackRange: 1.5
-  healthRegenaration: 0.25
-  goldCost: 0
-  unit_name: Ninja
-  icon: {fileID: 21300000, guid: 1ebede4dacb548145aca21369047b1d3, type: 3}
+  attackDamage: 20
+  attackSpeed: 1.5
+  movementSpeed: 3
+  attackRange: 1
+  healthRegenaration: 0.5
+  goldCost: 50
+  unit_name: Axeman
+  icon: {fileID: 21300000, guid: 749901fc763bf5a4aa83a31a0191a42d, type: 3}
