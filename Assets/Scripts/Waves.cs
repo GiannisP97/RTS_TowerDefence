@@ -11,7 +11,7 @@ public class Waves : MonoBehaviour
     public float resting_time;
     public float enemie_spawn_interval;
     public GameObject[] checkpoints = new GameObject[4];
-    public List<GameObject>  enemies = new List<GameObject>();
+    public List<UnityRTS>  enemies = new List<UnityRTS>();
 
     public Text wave_number;
 
@@ -66,7 +66,7 @@ public class Waves : MonoBehaviour
         if(number_of_enemies >0){
             GameObject o = Instantiate(enemy1,enemy_spawn.transform.position + new Vector3(Random.Range(0,5),0,Random.Range(0,5)),enemy_spawn.transform.rotation);
             o.GetComponent<AgentHeadingToGoal>().paths = checkpoints;
-            enemies.Add(o);
+            enemies.Add(o.GetComponent<UnityRTS>());
             coroutine = Spawn_wave(enemie_spawn_interval,number_of_enemies-1);
             StartCoroutine(coroutine);
         }

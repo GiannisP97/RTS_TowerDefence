@@ -17,8 +17,11 @@ MonoBehaviour:
   attackDamage: 40
   attackSpeed: 3
   movementSpeed: 2
-  attackRange: 1
+  attackRange: 1.5
   healthRegenaration: 1
   goldCost: 200
   unit_name: Knight
   icon: {fileID: 21300000, guid: 404170945d3e72e428805313bcc5860d, type: 3}
+  isTower: 0
+  aggroDistance: 10
+  unit_radius: 0.5

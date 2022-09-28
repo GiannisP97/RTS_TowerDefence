@@ -13,8 +13,8 @@ public class UnitStats : ScriptableObject
     public float attackSpeed;
     public float movementSpeed;
     public  float attackRange;
-
     public float healthRegenaration;
+
     [Header("Other")]
 
     public int goldCost;
@@ -22,4 +22,8 @@ public class UnitStats : ScriptableObject
     public string unit_name;
 
     public Sprite icon;
+    public bool isTower;
+    public float aggroDistance = 10;
+
+    public float unit_radius;
 }

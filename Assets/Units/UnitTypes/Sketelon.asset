@@ -22,3 +22,6 @@ MonoBehaviour:
   goldCost: 150
   unit_name: Skeleton
   icon: {fileID: 21300000, guid: 1ce191c9009a9e64bac5903cad680744, type: 3}
+  isTower: 0
+  aggroDistance: 10
+  unit_radius: 0.5

@@ -22,3 +22,6 @@ MonoBehaviour:
   goldCost: 90
   unit_name: Archer
   icon: {fileID: 21300000, guid: 1ebede4dacb548145aca21369047b1d3, type: 3}
+  isTower: 0
+  aggroDistance: 10
+  unit_radius: 0.5

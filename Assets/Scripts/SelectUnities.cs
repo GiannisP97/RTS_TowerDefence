@@ -130,6 +130,7 @@ public class SelectUnities : MonoBehaviour
                         Vector3 path = selectedUnities[0].calculatePath(hit.point);
                         foreach(UnityRTS un in selectedUnities){
                             un.moveToPosiotion(path);
+                            un.commanded_to_move = true;
                             Destroy(arrow_temp);
                             arrow_temp = Instantiate(arrows,hit.point - new Vector3(0,0.5f,0),Quaternion.identity);
                             Destroy(arrow_temp,0.5f);

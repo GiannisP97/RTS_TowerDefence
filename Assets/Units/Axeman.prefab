@@ -2974,10 +2974,10 @@ NavMeshAgent:
   m_GameObject: {fileID: 5643771004350315275}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.22
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 60
-  avoidancePriority: 0
+  avoidancePriority: 50
   m_AngularSpeed: 350
   m_StoppingDistance: 2.5
   m_AutoTraverseOffMeshLink: 1
@@ -2997,8 +2997,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.36
-  m_Height: 1.77
+  m_Radius: 0.5
+  m_Height: 1.84
   m_Direction: 1
   m_Center: {x: 0, y: 0.84, z: 0}
 --- !u!1 &5652924750813355324
@@ -3733,13 +3733,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463047657558026013}
-  m_LocalRotation: {x: 0.019731311, y: -0.5120624, z: 0.02540731, w: 0.8583457}
-  m_LocalPosition: {x: 0.009, y: -0.241, z: 0.033}
-  m_LocalScale: {x: 1.5, y: 4, z: 1}
+  m_LocalRotation: {x: 0.04163592, y: -0.96656895, z: 0.041869506, w: 0.2495155}
+  m_LocalPosition: {x: 0.0036, y: -0.0871, z: 0.0321}
+  m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_Children: []
   m_Father: {fileID: 3072346980630134957}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 3.434, y: -61.598, z: 1.344}
+  m_LocalEulerAnglesHint: {x: 5.838, y: -151.226, z: -3.434}
 --- !u!33 &8463047657554803485
 MeshFilter:
   m_ObjectHideFlags: 0

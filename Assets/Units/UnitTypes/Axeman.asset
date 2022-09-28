@@ -17,8 +17,11 @@ MonoBehaviour:
   attackDamage: 20
   attackSpeed: 1.5
   movementSpeed: 3
-  attackRange: 1
+  attackRange: 1.5
   healthRegenaration: 0.5
   goldCost: 50
   unit_name: Axeman
   icon: {fileID: 21300000, guid: 749901fc763bf5a4aa83a31a0191a42d, type: 3}
+  isTower: 0
+  aggroDistance: 10
+  unit_radius: 0.5

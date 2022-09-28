@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +10,7 @@ public class UnityRTS : MonoBehaviour
     public UnitStats UnitStat;
     private GameObject selectedGameobject;
     private NavMeshAgent agent;
-    private Transform currentTarget;
+    public Transform currentTarget;
     private float attackTimer;
     private RTS_Controller r = new RTS_Controller();
     private IEnumerator coroutine;
@@ -19,8 +19,8 @@ public class UnityRTS : MonoBehaviour
     private Vector3 order_destination;
     private bool movingToPosition = false;
     public Owner owner;
-    public float HP;
     public string Unit_name;
+    public float HP;
     public float MaxHP;
     public float def;
     public float attackDamage;
@@ -29,11 +29,15 @@ public class UnityRTS : MonoBehaviour
     public  float attackRange;
     public float healthRegen;
     public int goldCost;
-    public float aggroDistance = 10;
-    public bool isTower = false;
-    
+    private float aggroDistance = 10;
+    public bool isTower;
+    private bool lockedOn = false;
     private float attack_anim_time = 0;
     private AnimatorClipInfo[] m_CurrentClipInfo;
+
+    private float unit_radius;
+    public bool commanded_to_move = false;
+    private float regenTimer;
 
     private void Awake(){
         selectUnities = GameObject.Find("GameController").GetComponent<SelectUnities>();
@@ -51,76 +55,104 @@ public class UnityRTS : MonoBehaviour
         healthRegen = UnitStat.healthRegenaration;
         Unit_name = UnitStat.name;
         movementSpeed = UnitStat.movementSpeed;
+        isTower = UnitStat.isTower;
+        unit_radius = UnitStat.unit_radius;
 
         //Debug.Log(animator.runtimeAnimatorController.animationClips[2].name);
+        //Debug.Log(attack_anim_time);
 
         attack_anim_time = animator.runtimeAnimatorController.animationClips[2].length;
-        attack_anim_time = attack_anim_time/2;
-        //Debug.Log(attack_anim_time);
+        attack_anim_time = attack_anim_time/2; //na pernei to reference apo ton animator
+
+        //Initiate agent
+        agent.speed = movementSpeed;
+        agent.radius = unit_radius;
+        this.gameObject.GetComponent<CapsuleCollider>().radius = unit_radius;
+
+
+        
     }
 
     void Update(){
         attackTimer += Time.deltaTime;
+        regenTimer+=Time.deltaTime;
         
         animator.SetFloat("Velocity",movementSpeed/5);
         //animator.SetFloat("AttackSpeed",attack_anim_time/attackSpeed);
-        agent.speed = movementSpeed;
+        
 
 
         if(agent.velocity.magnitude>0 && animator.GetInteger("State")!=2){
-            animator.SetInteger("State",1);
+            animator.SetInteger("State",1); // AGENT MOVING
         }
 
         if(agent.velocity.magnitude==0 && animator.GetInteger("State")!=2){
-           animator.SetInteger("State",0);
+           animator.SetInteger("State",0); // AGENT IDLE
         }
 
-
-        if(HP<MaxHP){
-            HP+=healthRegen*Time.deltaTime; //thelei allagi, na ginei ana 0.25 sec
-        }
-
-        
-        if(currentTarget!=null){
-            agent.destination = currentTarget.position;
-            float distance = Vector3.Distance(transform.position,currentTarget.position);
-            agent.stoppingDistance = attackRange;
-            if(distance<= attackRange){
-                if(attackTimer>=attackSpeed && animator.GetInteger("State")!=2){
-                    //Debug.Log(attack_anim_time);
-                    StartCoroutine(Attack(attack_anim_time));
-                }
-            }
-        }
-        else{
-            agent.stoppingDistance = 0;
-        }
-        
-        float dist=agent.remainingDistance; 
-        if(dist!=Mathf.Infinity && dist==0){
-            movingToPosition = false;
-        }
-        if(HP<=0){
+        if(HP<=0){ // IF UNIT DIED
             selectUnities.UnitDied(this);
             animator.SetInteger("State",4);
             animator.enabled = false;
             Destroy(this.gameObject);
         }
+        if(HP<MaxHP && regenTimer>=0.25){ //UNIT REGENERETION EVERY 0.25 SEC
+            HP+=(float)(healthRegen/4);
+            regenTimer=0;
+        }
 
-        if(owner==Owner.enemy){
-            float min=9999999;
+        
+        if(currentTarget!=null && !commanded_to_move){    //FOLLOWING CURRENT TARGET
+
+            //Debug.Log(gameObject.name+" Target:"+currentTarget.gameObject.name);
+            if(agent.isActiveAndEnabled){
+                agent.destination = currentTarget.position;
+                agent.stoppingDistance = attackRange-0.5f;
+                movingToPosition = true;
+            }
+            float distance = Vector3.Distance(transform.position,currentTarget.position);
+
+            if(distance<= attackRange){  //ATTACKING CHECK
+                if(attackTimer>=attackSpeed && animator.GetInteger("State")!=2){
+                    //Debug.Log(attack_anim_time);
+
+                    StartCoroutine(Attack(attack_anim_time)); //ATTACK ROUTINE
+
+                }
+            }
+        }
+        else {
+            agent.stoppingDistance = 0;
+        }
+
+        
+        if(agent.isActiveAndEnabled){
+            if(agent.remainingDistance==0){
+                commanded_to_move = false;
+            }
+        }
+
+
+        if(owner==Owner.enemy){         //aggro for enemy's unit
+            float minDistance=9999999;
             UnityRTS temp_unit = null;
-            foreach (UnityRTS t in GameObject.Find("GameController").GetComponent<player>().playersUnities)
+
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, aggroDistance);
+            foreach (var hitCollider in hitColliders)
             {
-                if(Vector3.Distance(t.gameObject.transform.position,transform.position)<min){
-                    //min = CalculatePathLength(t.gameObject.transform.position);
-                    min = Vector3.Distance(t.gameObject.transform.position,transform.position);
-                    temp_unit = t;
+                if(hitCollider.GetComponent<UnityRTS>()!=null){
+                    if(hitCollider.GetComponent<UnityRTS>().owner==Owner.player){
+                        //Debug.Log(hitCollider.gameObject.name);
+                        float dist = Vector3.Distance(hitCollider.transform.position,transform.position);
+                        if(dist<minDistance){
+                            minDistance = dist;
+                            temp_unit = hitCollider.GetComponent<UnityRTS>();
+                        }
+                    }
                 }
             }
 
-            
-            if(min<aggroDistance && temp_unit!=null){
+            if(minDistance<=aggroDistance && temp_unit!=null){
                 setCurrentTarget(temp_unit.gameObject.transform);
                 this.GetComponent<AgentHeadingToGoal>().attacking_player = true;
             }
@@ -128,18 +160,27 @@ public class UnityRTS : MonoBehaviour
                 this.GetComponent<AgentHeadingToGoal>().attacking_player = false;
             }
         }
+        
+        if(owner==Owner.player && !commanded_to_move){       //aggro for player's unit
+            UnityRTS temp_unit = null;
+            float minDistance = 99999;
 
-        if(owner==Owner.player && !movingToPosition){
-            GameObject temp_unit = null;
-            float min = 99999999;
-            foreach (GameObject t in GameObject.Find("Spawn Enemies").GetComponent<Waves>().enemies){
-                if(Vector3.Distance(t.transform.position,transform.position)<min){
-                    min = Vector3.Distance(t.transform.position,transform.position);
-                    temp_unit = t;
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, aggroDistance);
+            foreach (var hitCollider in hitColliders)
+            {
+                if(hitCollider.GetComponent<UnityRTS>()!=null){
+                    if(hitCollider.GetComponent<UnityRTS>().owner==Owner.enemy && hitCollider.gameObject!=this.gameObject){
+                        //Debug.Log(hitCollider.gameObject.name);
+                        float dist = Vector3.Distance(hitCollider.transform.position,transform.position);
+                        if(dist<minDistance){
+                            minDistance = dist;
+                            temp_unit = hitCollider.GetComponent<UnityRTS>();
+                        }
+                    }
                 }
             }
 
-            if(min<aggroDistance && temp_unit!=null){
+            if(minDistance<=aggroDistance && temp_unit!=null){
                 setCurrentTarget(temp_unit.gameObject.transform);
             }
         }
@@ -193,6 +234,7 @@ public class UnityRTS : MonoBehaviour
         }
         animator.SetInteger("State",0);
         agent.isStopped = false;
+        agent.ResetPath();
     }
 
 
