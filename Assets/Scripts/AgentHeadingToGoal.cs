@@ -7,13 +7,10 @@ public class AgentHeadingToGoal : MonoBehaviour
 {
    // public Transform goal;
     public GameObject[] paths = new GameObject[4] ;
-    public NavMeshAgent agent;
+    private NavMeshAgent agent;
 
-    private int startingPath = 0;
-    private int pathLength = 0;
-
-    public bool canAttack = true;
-
+    public int startingPath = 0;
+    public int pathLength = 0;
     public bool attacking_player = false;
 
 

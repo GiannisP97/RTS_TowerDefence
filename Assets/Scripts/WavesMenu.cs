@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class Waves : MonoBehaviour
+public class WavesMenu : MonoBehaviour
 {
     public GameObject enemy1;
     public int number_of_waves;
@@ -10,11 +10,7 @@ public class Waves : MonoBehaviour
     public float resting_time;
     public float enemie_spawn_interval;
     public GameObject[] checkpoints = new GameObject[4];
-    public List<UnityRTS>  enemies = new List<UnityRTS>();
 
-    public Text wave_number;
-
-    public Text next_wave_time;
     //private class members
     private float starting_time;
     private float wavetime;
@@ -27,7 +23,6 @@ public class Waves : MonoBehaviour
     {
         starting_time = Time.time;
         current_wave = number_of_waves;
-        wave_number.text = current_wave.ToString();
         time_left = beginning_time;
         coroutine = Spawn_wave(beginning_time,10);
         StartCoroutine(coroutine);
@@ -40,21 +35,16 @@ public class Waves : MonoBehaviour
             Debug.Log("New wave started");
             spawning_finished = false;
             current_wave--;
-            wave_number.text = current_wave.ToString();
             time_left = resting_time;
             coroutine = Spawn_wave(resting_time,10);
             StartCoroutine(coroutine);
         }
         if(time_left>0){
             time_left = time_left-Time.deltaTime;
-            next_wave_time.text = time_left.ToString();
         }
         else{
             time_left = 0;
-            next_wave_time.text = time_left.ToString();
         }
-
-        enemies.RemoveAll(d => d == null);
 
     }
 
@@ -65,7 +55,6 @@ public class Waves : MonoBehaviour
         if(number_of_enemies >0){
             GameObject o = Instantiate(enemy1,this.transform.position,this.transform.rotation);
             o.GetComponent<AgentHeadingToGoal>().paths = checkpoints;
-            enemies.Add(o.GetComponent<UnityRTS>());
             coroutine = Spawn_wave(enemie_spawn_interval,number_of_enemies-1);
             StartCoroutine(coroutine);
         }
